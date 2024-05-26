@@ -1,10 +1,13 @@
 <?php
 
-use App\Http\Controllers\BookBorrowController;
-use App\Http\Controllers\BookCategoryController;
-use App\Http\Controllers\BookController;
-use App\Http\Controllers\BookReturnController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\BookBorrowController;
+use App\Http\Controllers\BookReturnController;
+use App\Http\Controllers\CurriculumController;
+use App\Http\Controllers\BookCategoryController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,9 +20,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('dashboard.index');
-});
+Route::get('/admin-dashboard', [DashboardController::class, 'index'])->name('index.dashboard');
+Route::get('/teacher-dashboard', [DashboardController::class, 'teacher'])->name('teacher.dashboard');
+Route::get('/student-dashboard', [DashboardController::class, 'student'])->name('student.dashboard');
+Route::get('/librarian-dashboard', [DashboardController::class, 'librarian'])->name('librarian.dashboard');
+Route::get('/parent-dashboard', [DashboardController::class, 'parent'])->name('parent.dashboard');
 
 // book categories
 Route::controller(BookCategoryController::class)->group(function () {
@@ -44,3 +49,7 @@ Route::controller(BookReturnController::class)->group(function () {
     Route::get('book-return/', 'index');
     Route::get('book-return/add-return', 'create');
 });
+
+Route::resource('/curriculum', CurriculumController::class);
+Route::put('curriculum/{id}', [CurriculumController::class, 'update'])->name('curriculum.update');
+

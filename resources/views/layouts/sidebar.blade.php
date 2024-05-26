@@ -8,9 +8,11 @@
                     <li class="submenu ">
                         <a href="#"><i class="feather-grid"></i> <span> Dashboard</span> <span class="menu-arrow"></span></a>
                         <ul>
-                            <li><a href="{{ URL::to('/') }}" class="">Admin Dashboard</a></li>
-                            <li><a href="teacher-dashboard.html">Teacher Dashboard</a></li>
-                            <li><a href="student-dashboard.html">Student Dashboard</a></li>
+                            <li><a href="{{ route('index.dashboard') }}" class="">Admin Dashboard</a></li>
+                            <li><a href="{{ route('teacher.dashboard') }}">Teacher Dashboard</a></li>
+                            <li><a href="{{ route('student.dashboard') }}">Student Dashboard</a></li>
+                            <li><a href="{{ route('librarian.dashboard') }}">Librarian Dashboard</a></li>
+                            <li><a href="{{ route('parent.dashboard') }}">Parent Dashboard</a></li>
                         </ul>
                     </li>
                     <li class="submenu">
@@ -30,6 +32,9 @@
                             <li><a href="add-teacher.html">Teacher Add</a></li>
                             <li><a href="edit-teacher.html">Teacher Edit</a></li>
                         </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ URL :: to ('/curriculum') }}"><i class="fas fa-chalkboard-teacher"></i> <span> Curriculums</span></a>
                     </li>
                     {{-- <li class="submenu">
                         <a href="#"><i class="fas fa-building"></i> <span> Departments</span> <span class="menu-arrow"></span></a>
