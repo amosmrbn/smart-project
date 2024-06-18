@@ -155,7 +155,7 @@ class TuitionDetailController extends Controller
                 $tuition = Tuition::find($request->order_id);
                 if ($tuition) {
                     $tuition->update(['status' => 'Paid']);
-                    return $this->invoice($tuition->id);
+                    // return $this->invoice($tuition->id);
                 } else {
                     dd("Tuition with ID {$request->order_id} not found.");
                 }
@@ -166,6 +166,12 @@ class TuitionDetailController extends Controller
             dd("Signature key does not match.");
         }
     }
+
+    // public function payOffSuccess(Tuition $tuition)
+    // {
+    //     $tuition->id;
+    //     return view('tuition.tuition_form/' .$tuition->id);
+    // }
 
     
 

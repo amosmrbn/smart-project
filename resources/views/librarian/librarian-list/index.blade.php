@@ -37,22 +37,24 @@
                         <td>{{ $librarian->username }}</td>
                         <td>{{ $librarian->email }}</td>
                         <td>{{ $librarian->gender }}</td>
-                        <td>{{ $librarian->born_date }}</td>
+                        <td>{{ DateFormat($librarian->born_date, 'DD MMMM Y') }}</td>
                         <td>{{ $librarian->phone }}</td>
                         <td>{{ $librarian->nik }}</td>
                         <td>{{ $librarian->address }}</td>
                         <td class="align-middle text-center">
                             <div class="d-flex justify-content-center align-items-center">
-                                <a href="{{ route('librarian.edit', $librarian->id) }}"
-                                    class="btn btn-sm btn-outline-primary me-2">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                @if (in_array(auth()->user()->role, ['Super Admin', 'Admin']))
+                                @if ($librarian->id == auth()->user()->id) {{-- Cek apakah librarian yang sedang login --}}
+                                    <a href="{{ route('librarian.edit', $librarian->id) }}" class="btn btn-sm btn-outline-primary me-2">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                @endif
+                                @if (in_array(auth()->user()->role, ['Super Admin', 'Admin']) && $librarian->id != auth()->user()->id)
+                                    {{-- Hanya tampilkan tombol hapus jika role super admin atau admin, dan bukan librarian yang sedang login --}}
                                     <form method="POST" action="{{ route('librarian.destroy', $librarian->id) }}">
                                         @csrf
                                         @method('delete')
                                         <button type="submit" class="btn btn-sm btn-outline-danger"
-                                            onclick="return confirm('Anda yakin mau menghapus siswa {{ $librarian->name }} ?')">
+                                            onclick="return confirm('Anda yakin mau menghapus librarian {{ $librarian->name }} ?')">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </form>

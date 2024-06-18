@@ -4,7 +4,7 @@
 
   <div class="card mb-4">
     <div class="card-header">
-        <h4>Detail Tagihan</h4>
+        <h4>{{ $title }}</h4>
     </div>
 
     <div class="card-body">
@@ -38,6 +38,9 @@
                 </tr>
             </tbody>
         </table>
+        <br><br>
+        <a href="{{ URL::to('tuition') }}" class="btn btn-outline-secondary">Back</a>
+
     </div>
 </div>
 

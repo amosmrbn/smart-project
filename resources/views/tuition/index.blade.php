@@ -43,8 +43,13 @@
                 </td>
                 <td class=" text-center">
                     <div class="d-flex justify-content-center align-items-center">
+                        @if ($tuition->status == 'Paid')
+                            <a href="{{ URL::to('invoice/' . $tuition->id) }}" title="Invoice" class="btn btn-sm btn-outline-warning me-2">
+                                <i class="fas fa-receipt"></i>
+                            </a>
+                        @endif
                         <a href="{{ route('tuition.edit', $tuition->id) }}" title="Edit" class="btn btn-sm btn-outline-primary me-2">
-                            <i class="fas fa-edit"></i>Edit
+                            <i class="fas fa-edit"></i>
                         </a>
                         <form method="POST" action="{{ URL::to('tuition/' . $tuition->id) }}">
                             @csrf
@@ -55,7 +60,6 @@
                         </form>
                     </div>
                 </td>
-
             </tr>
             @endforeach
         </tbody>

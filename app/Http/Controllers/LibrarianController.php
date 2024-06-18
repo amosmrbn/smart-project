@@ -57,6 +57,7 @@ class LibrarianController extends Controller
             'nik' => 'required|unique:users',
             'address' => 'required',
             'role' => 'required',
+            // 'image' => 'nullable|mimes:jpg,png,jpeg,gif|max:1024',
         ]);
 
         $data['password'] = Hash::make($data["password"]);

@@ -188,10 +188,7 @@ use App\Http\Controllers\TuitionDetailController;
     Route::resource('tuition-type', TuitionTypeController::class);
     Route::resource('tuition', TuitionController::class);
     Route::resource('tuition-detail', TuitionDetailController::class);
-    // Route::get('/tuition/{tuition}/payoff', [TuitionDetailController::class, 'Payoff'])->name('tuition.payoff');
     Route::post('/tuition/{id}/payoff', [TuitionDetailController::class, 'payOff'])->name('tuition.payoff');
     Route::get('/invoice/{id}', [TuitionDetailController::class, 'invoice'])->name('invoice.show');
-
-    // Route::get('/tuition/{id}/paymidtrans', [TuitionDetailController::class, 'payMidtrans'])->name('tuition.paymidtrans');
 
 });
