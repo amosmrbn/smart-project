@@ -9,8 +9,10 @@
               {{ URL::to('dashboard/student') }}
             @elseif(Auth::user()->role == 'Teacher')
               {{ URL::to('dashboard/teacher') }}
-            @else
+            @elseif(Auth::user()->role == 'Parent')
               {{ URL::to('dashboard/parent') }}
+            @else
+              {{ URL::to('dashboard/librarian') }}
             @endif
           " class="logo">
             <img src="https://seeklogo.com/images/S/smarts-logo-8F737FF005-seeklogo.com.png" alt="Logo" />
@@ -71,8 +73,10 @@
                   </span>
               </a>
               <div class="dropdown-menu">
-                  <a class="dropdown-item" href="{{ URL::to('profile.edit-profile') }}"><i class="fas fa-user"></i><span> My Profile</span></a>
-                  <a class="dropdown-item" href="{{ route('logout') }}"><i class="fas fa-sign-out-alt"></i><span> Logout</span></a>
+                  <div class="user-header">
+                      <a class="dropdown-item" href="{{ URL::to('/profile') }}">My Profile</a>
+                      <a class="dropdown-item" href="{{ route('logout') }}"><i class="fas fa-sign-out-alt"></i><span> Logout</span></a>
+                  </div>
               </div>
 
           </li>
