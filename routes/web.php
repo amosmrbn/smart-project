@@ -58,6 +58,11 @@ use App\Http\Controllers\StudentTeacherClassroomRelationshipController;
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
+    Route::get('/profile', [ProfileController::class, 'index']);
+    Route::post('/profile/update-profile', [ProfileController::class, 'updateProfile']);
+    Route::post('/profile/update-password', [ProfileController::class, 'updatePassword']);
+    // Route::post('/profile/update-image', [ProfileController::class, 'updateImage']);
+
     Route::prefix('/')->middleware('auth')->group(function () {
     Route::get('/teacher', [DashboardController::class, 'teacher']);
     Route::get('/dashboard/superAdmin', [DashboardController::class, 'superAdmin'])->name('superAdmin.dashboard');
@@ -66,11 +71,6 @@ use App\Http\Controllers\StudentTeacherClassroomRelationshipController;
     Route::get('/dashboard/librarian', [DashboardController::class, 'librarian'])->name('librarian.dashboard');
     Route::get('/dashboard/student', [DashboardController::class, 'student'])->name('student.dashboard');
     Route::get('/dashboard/parent', [DashboardController::class, 'parent'])->name('parent.dashboard');
-
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-    Route::get('/profile/edit', [ProfileController::class, 'editProfile'])->name('profile.edit-profile');
-    Route::post('/profile/update', [ProfileController::class, 'updateProfile'])->name('profile.update');
-    Route::post('/profile/update-password', [ProfileController::class, 'updatePassword']);
 
 
     Route::controller(BookCategoryController::class)->group(function () {
@@ -116,6 +116,7 @@ use App\Http\Controllers\StudentTeacherClassroomRelationshipController;
     });
 
     Route::resource('/parent/parent-list', ParentController::class);
+    Route::get('/parent-list/download', [ParentController::class, 'download'])->name('parent.download');
     Route::resource('/student/student-list', StudentController::class);
     Route::get('/student-list/download', [StudentController::class, 'download'])->name('student.download');
     Route::resource('/student/student-teacher-classroom', StudentTeacherClassroomRelationshipController::class);
@@ -158,6 +159,7 @@ use App\Http\Controllers\StudentTeacherClassroomRelationshipController;
         Route::get('/librarian/librarian-list/{id}/edit', 'edit')->name('librarian.edit');
         Route::put('/librarian/librarian-list/{id}', 'update')->name('librarian.update');
         Route::delete('/librarian/librarian-list/{id}', 'destroy')->name('librarian.destroy');
+        Route::get('/librarian-list/download', [LibrarianController::class, 'download'])->name('librarian.download');
     });
 
     Route::controller(TeacherHomeroomRelationshipController::class)->group(function () {
@@ -185,6 +187,9 @@ use App\Http\Controllers\StudentTeacherClassroomRelationshipController;
     Route::get('grade-detail/download', [GradeDetailController::class, 'download'])->name('grade-detail.download');
 
     Route::resource('/user', UserController::class)->middleware('checkRole:Super Admin');
+    Route::resource('attendance', AttendanceController::class);
+
+
     // Route::get('/user', [UserController::class, 'editProfile'])->name('user.edit-profile');
     // Route::post('/user', [UserController::class, 'updateProfile'])->name('profile.update');
 
