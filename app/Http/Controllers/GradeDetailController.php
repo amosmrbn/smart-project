@@ -7,8 +7,6 @@ use App\Models\GradeDetail;
 use App\Models\Grade;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use Barryvdh\DomPDF\Facade\PDF;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,9 +19,9 @@ class GradeDetailController extends Controller
         if ($user->role === 'Teacher') {
             // Only fetch grades related to the logged-in teacher
             $grades = Grade::with([
-                'taskType', 
-                'teacherClassroomRelationship.teacherHomeroomRelationship.classroom.classroomType', 
-                'teacherClassroomRelationship.teacherSubjectRelationship.teacher', 
+                'taskType',
+                'teacherClassroomRelationship.teacherHomeroomRelationship.classroom.classroomType',
+                'teacherClassroomRelationship.teacherSubjectRelationship.teacher',
                 'teacherClassroomRelationship.teacherSubjectRelationship.subject'
             ])->whereHas('teacherClassroomRelationship.teacherSubjectRelationship', function ($query) use ($user) {
                 $query->where('teacher_id', $user->id);
@@ -41,9 +39,9 @@ class GradeDetailController extends Controller
         } else {
             // If the user is a student, they should only see their own grades
             $grades = Grade::with([
-                'taskType', 
-                'teacherClassroomRelationship.teacherHomeroomRelationship.classroom.classroomType', 
-                'teacherClassroomRelationship.teacherSubjectRelationship.teacher', 
+                'taskType',
+                'teacherClassroomRelationship.teacherHomeroomRelationship.classroom.classroomType',
+                'teacherClassroomRelationship.teacherSubjectRelationship.teacher',
                 'teacherClassroomRelationship.teacherSubjectRelationship.subject'
             ])->whereHas('gradeDetails', function ($query) use ($user) {
                 $query->where('student_id', $user->id);
@@ -67,7 +65,7 @@ class GradeDetailController extends Controller
                 abort(403, 'Unauthorized action.');
             }
             $gradeDetailsQuery->where('student_id', $request->student_id);
-        } else if ($user->role === 'Student') {
+        } elseif ($user->role === 'Student') {
             // For students, default to filtering by their own ID
             $gradeDetailsQuery->where('student_id', $user->id);
         }
@@ -101,9 +99,9 @@ class GradeDetailController extends Controller
         if ($user->role === 'Teacher') {
             // Only fetch grades related to the logged-in teacher
             $grades = Grade::with([
-                'taskType', 
-                'teacherClassroomRelationship.teacherHomeroomRelationship.classroom.classroomType', 
-                'teacherClassroomRelationship.teacherSubjectRelationship.teacher', 
+                'taskType',
+                'teacherClassroomRelationship.teacherHomeroomRelationship.classroom.classroomType',
+                'teacherClassroomRelationship.teacherSubjectRelationship.teacher',
                 'teacherClassroomRelationship.teacherSubjectRelationship.subject'
             ])->whereHas('teacherClassroomRelationship.teacherSubjectRelationship', function ($query) use ($user) {
                 $query->where('teacher_id', $user->id);
@@ -158,9 +156,9 @@ class GradeDetailController extends Controller
         if ($user->role === 'Teacher') {
             // Only fetch grades related to the logged-in teacher
             $grades = Grade::with([
-                'taskType', 
-                'teacherClassroomRelationship.teacherHomeroomRelationship.classroom.classroomType', 
-                'teacherClassroomRelationship.teacherSubjectRelationship.teacher', 
+                'taskType',
+                'teacherClassroomRelationship.teacherHomeroomRelationship.classroom.classroomType',
+                'teacherClassroomRelationship.teacherSubjectRelationship.teacher',
                 'teacherClassroomRelationship.teacherSubjectRelationship.subject'
             ])->whereHas('teacherClassroomRelationship.teacherSubjectRelationship', function ($query) use ($user) {
                 $query->where('teacher_id', $user->id);
@@ -224,7 +222,7 @@ class GradeDetailController extends Controller
             'students' => $students,
         ];
 
-        $pdf = PDF::loadView('teacher.grade-detail.report', $data);
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('teacher.grade-detail.report', $data);
         $pdf->setPaper('a4', 'landscape');
 
         return $pdf->download('grade-details.pdf');
@@ -234,18 +232,18 @@ class GradeDetailController extends Controller
     {
         $student = User::where('role', 'student')->find($id);
 
-        $gradeDetails = GradeDetail::getGradeDetail($this->defaultCurriculum->id, $id); 
-        
+        $gradeDetails = GradeDetail::getGradeDetail($this->defaultCurriculum->id, $id);
+
 
         $data = [
             'title' => 'Summary Report ' . $this->defaultCurriculum->name,
             'gradeDetails' => $gradeDetails,
             'configuration' => Configuration::first(),
             'student' => $student,
-            'date' => Carbon::now(),     
+            'date' => Carbon::now(),
         ];
 
-        $pdf = PDF::loadView('teacher.grade-detail.summary-report', $data);
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('teacher.grade-detail.summary-report', $data);
         // $pdf->setPaper('a4', 'landscape');
 
         return $pdf->download('grade-details-'. $student->id .'.pdf');

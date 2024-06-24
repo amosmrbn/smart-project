@@ -15,8 +15,7 @@ class TeacherHomeroomRelationshipController extends Controller
      */
     public function index()
     {
-        $teacher_homerooms = TeacherHomeroomRelationship::
-        with('teacher', 'curriculum', 'classroom')
+        $teacher_homerooms = TeacherHomeroomRelationship::with('teacher', 'curriculum', 'classroom')
         ->where('curriculum_id', $this->defaultCurriculum->id)
         ->orderBy('classroom_id')
         ->get();
@@ -132,22 +131,21 @@ class TeacherHomeroomRelationshipController extends Controller
         }
     }
     public function download()
-{
-    // Retrieve data (adjust the query as per your application logic)
-    $teacher_homerooms = TeacherHomeroomRelationship::with(['teacher', 'classroom.classroomType'])->get();
+    {
+        // Retrieve data (adjust the query as per your application logic)
+        $teacher_homerooms = TeacherHomeroomRelationship::with(['teacher', 'classroom.classroomType'])->get();
 
-    $data = [
-        'title' => 'Teachers Homeroom Report',
-        'teacher_homerooms' => $teacher_homerooms
-    ];
+        $data = [
+            'title' => 'Teachers Homeroom Report',
+            'teacher_homerooms' => $teacher_homerooms
+        ];
 
-    // Load the view and generate the PDF
-    $pdf = \Barryvdh\DomPDF\Facade\PDF::loadView('teacher.teacher-homeroom.report', $data);
-    $pdf->setPaper('a4', 'landscape');
+        // Load the view and generate the PDF
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('teacher.teacher-homeroom.report', $data);
+        $pdf->setPaper('a4', 'landscape');
 
-    return $pdf->download('teachers_homeroom_report.pdf');
+        return $pdf->download('teachers_homeroom_report.pdf');
+    }
+
+
 }
-
-
-}
-

@@ -3,12 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\BorrowingBook;
-use App\Models\BorrowingBookDetail;
 use App\Models\Configuration;
-use Barryvdh\DomPDF\PDF;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 
 class BookReturnController extends Controller
 {
@@ -23,7 +20,7 @@ class BookReturnController extends Controller
         $endDate = $request->input("endDate", $now);
         $status = $request->input('status', 'borrowing');
 
-        $filters = BorrowingBook::getInactiveBorrowingBook($this->defaultCurriculum->id, $startDate , $endDate);
+        $filters = BorrowingBook::getInactiveBorrowingBook($this->defaultCurriculum->id, $startDate, $endDate);
 
         // dd($filterByDate);
 
@@ -77,17 +74,17 @@ class BookReturnController extends Controller
         }
     }
 
-   
+
     public function downloadPdf(Request $request)
     {
         $configuration = Configuration::first();
         $curriculumId = $this->defaultCurriculum->id;
         $startDate = $request->input('startDate');
         $endDate = $request->input('endDate');
-        $status = $request->input('status', ''); 
+        $status = $request->input('status', '');
 
         $filters = BorrowingBook::getInactiveBorrowingBook($curriculumId, $startDate, $endDate);
-        
+
         if ($status) {
             $filters->where('status', $status);
         }
