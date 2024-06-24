@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Grade;
 use App\Models\TaskType;
-use App\Models\StudentTeacherHomeroomRelationship;
 use App\Models\TeacherClassroomRelationship;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -162,7 +161,7 @@ class GradeController extends Controller
             'teacherClassroomRelationships' => $teacherClassroomRelationships,
         ];
 
-        $pdf = \Barryvdh\DomPDF\Facade\PDF::loadView('teacher.grade.report', $data);
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('teacher.grade.report', $data);
         $pdf->setPaper('a4', 'landscape');
 
         return $pdf->download('grades.pdf');
